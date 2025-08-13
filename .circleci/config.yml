@@ -1,0 +1,50 @@
+version: 2.1
+
+jobs:
+  build-and-push:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+
+      # Install Docker CLI
+      - run:
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get remove -y docker docker-engine docker.io containerd runc || true
+            curl -fsSL https://get.docker.com -o get-docker.sh
+            sh get-docker.sh
+
+      # Build image
+      - run:
+          name: Build Docker Image
+          command: docker build -t $DOCKERHUB_USERNAME/flask-app:latest .
+
+      # Push to DockerHub
+      - run:
+          name: Push Docker Image
+          command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $DOCKERHUB_USERNAME/flask-app:latest
+
+  deploy-to-kind:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: SSH to Server B and Deploy
+          command: |
+            ssh -o StrictHostKeyChecking=no azureuser@4.240.107.213 "
+              docker pull $DOCKERHUB_USERNAME/flask-app:latest &&
+              kind load docker-image $DOCKERHUB_USERNAME/flask-app:latest circle-ci &&
+              kubectl rollout restart deployment flask-app
+            "
+
+workflows:
+  build-deploy:
+    jobs:
+      - build-and-push
+      - deploy-to-kind:
+          requires:
+            - build-and-push
