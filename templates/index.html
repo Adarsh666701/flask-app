@@ -1,20 +1,33 @@
 {% extends "layout.html" %}
+
 {% block page_title %}Welcome{% endblock %}
+
 {% block body %}
     {{ super() }}
 
-    <p>This is a minimal web app developed with <a href="http://flask.pocoo.org/">Flask</a> framework.</p>
-    <p>The main purpose is to introduce how to implement the essential elements in web applications with Flask, including</p>
+    <h2>Welcome to the Flask Minimal Web App</h2>
+    <p>This web application demonstrates a basic CI/CD pipeline using modern DevOps tools and cloud services.</p>
+
+    <h3>Main Features</h3>
     <ul>
-        <li>URL Building</li>
-        <li>Authentication with Sessions</li>
-        <li>Template & Template Inheritance</li>
-        <li>Error Handling</li>
-        <li>Integrating with Bootstrap</li>
-        <li>Interaction with Database (SQLite)</li>
-        <li>Invoking static resources</li>
-        <li>Upload files</li>
+        <li>Integration with <strong>CircleCI</strong> for automated testing and deployment</li>
+        <li>Version control using <strong>GitHub</strong></li>
+        <li>Deployment on <strong>AWS EC2</strong> instances</li>
+        <li>Containerization with <strong>Docker</strong></li>
+        <li>Orchestration using <strong>Kubernetes</strong></li>
     </ul>
 
-    <p>For more basic knowledge of Flask, you can refer to <a href="https://www.tutorialspoint.com/flask/">a tutorial on Tutorialspoint</a>.</p>
+    <h3>Purpose</h3>
+    <p>The main goal of this project is to provide a minimal, yet functional example of a full DevOps pipeline, so that developers can understand how code flows from source control to production deployment in the cloud.</p>
+
+    <h3>Getting Started</h3>
+    <p>To run this application locally:</p>
+    <ol>
+        <li>Clone the repository from GitHub.</li>
+        <li>Install dependencies using <code>pip install -r requirements.txt</code>.</li>
+        <li>Run the Flask app using <code>flask run</code>.</li>
+        <li>Open <code>http://localhost:5000</code> in your browser.</li>
+    </ol>
+
+    <p>Explore the pipeline setup and deployment scripts to understand the integration of each DevOps tool.</p>
 {% endblock %}
